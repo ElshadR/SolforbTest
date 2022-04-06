@@ -1,0 +1,69 @@
+﻿@model EditOrderModel
+
+@{
+    ViewData["Title"] = "Edit";
+    var providers = (ViewData["Providers"] as List<Provider>);
+}
+@if (Model != null)
+{
+    <div class="container">
+        <form asp-action="Edit">
+            <input asp-for="Id" hidden>
+            <div class="form-group">
+                <label asp-for="Number"></label>
+                <input asp-for="Number" class="form-control">
+            </div>
+            <div class="form-group">
+                <label asp-for="Date"></label>
+                <input asp-for="Date" class="form-control">
+            </div>
+            @if (providers != null)
+            {
+                <div class="form-group">
+                    <label>Provider</label>
+                    <select asp-for="ProviderId" class="form-control">
+                        @foreach (var item in providers)
+                        {
+                            if (Model.ProviderId == item.Id)
+                            {
+                                <option selected value="@item.Id">@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            }
+            @if (Model.OrderItems != null && Model.OrderItems.Count() > 0)
+            {
+                <div id="order-items" data-activeindex="@(Model.OrderItems.Count()-1)">
+                    <div class="row" id="addorderitem">
+                        <a id="add-order-item" class="btn btn-success float-right">Add</a>
+                    </div>
+                    <div class="row" id="orderitemtitle">
+                        <span>Order items</span>
+                    </div>
+
+                    @for (var i = 0; i < Model.OrderItems.Count(); i++)
+                    {
+                        @await Html.PartialAsync("~/Views/Shared/Partials/_OrderItemPartial.cshtml",
+            new OrderItemModel{
+            Index = i,
+            Id = Model.OrderItems[i].Id,
+            Name = Model.OrderItems[i].Name,
+            Quantity = Model.OrderItems[i].Quantity,
+            Unit = Model.OrderItems[i].Unit,
+            })
+
+                    }
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            }
+
+        </form>
+    </div>
+}
+
+

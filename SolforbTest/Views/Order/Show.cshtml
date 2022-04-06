@@ -1,0 +1,69 @@
+﻿@model Order
+
+@{
+    ViewData["Title"] = "Show";
+    var providers = (ViewData["Providers"] as List<Provider>);
+}
+@if (Model != null)
+{
+    <div class="container">
+        <form asp-action="Delete">
+                <input hidden name="id" value="@Model.Id" class="form-control">
+            <div class="form-group">
+                <label>Number</label>
+                <input disabled value="@Model.Number" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input disabled type="text" value="@Model.Date.ToString("dd.MM.yyyy HH:mm")" class="form-control">
+            </div>
+            @if (providers != null)
+            {
+                <div class="form-group">
+                    <label>Provider</label>
+                    <select disabled asp-for="ProviderId" class="form-control">
+                        @foreach (var item in providers)
+                        {
+                            if (Model.ProviderId == item.Id)
+                            {
+                                <option selected value="@item.Id">@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            }
+            @if (Model.OrderItems != null && Model.OrderItems.Count() > 0)
+            {
+                <div id="order-items">
+                    <div class="row" id="orderitemtitle">
+                        <span>Order items</span>
+                    </div>
+                    @foreach (var item in Model.OrderItems)
+                    {
+                        <div class="form-row order-item">
+                            <div class="form-group col-3">
+                                <label>Name</label>
+                                <input disabled type="text" value="@item.Name" class="form-control">
+                            </div>
+                            <div class="form-group col-3">
+                                <label>Quantity</label>
+                                <input disabled type="text" value="@item.Quantity" class="form-control">
+                            </div>
+                            <div class="form-group col-3">
+                                <label>Unit</label>
+                                <input disabled type="text" value="@item.Unit" class="form-control">
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+}
+
+

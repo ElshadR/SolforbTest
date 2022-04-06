@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Order>
+
+<div class="table-responsive">
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Number</th>
+                <th>Provider</th>
+                <th>Order items</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Number</th>
+                <th>Provider</th>
+                <th>Order items</th>
+                <th>Action</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            @if (Model != null && Model.Count() > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>@item.Number</td>
+                        <td>@item.Provider.Name</td>
+                        <td>@item.OrderItems.Count</td>
+                        <td>
+                            <a asp-controller="Order" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-controller="Order" asp-action="Show" asp-route-id="@item.Id">Show</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr style="text-align: center;">
+                    <td  colspan="6">Not found data</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

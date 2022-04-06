@@ -1,0 +1,26 @@
+﻿@model OrderItemModel
+@{
+    var index = Model.Index;
+    var unique = Guid.NewGuid().ToString();
+}
+<div class="form-row order-item" data-unique="@unique">
+    <input hidden id="order-item-id-@unique" name="OrderItems[@index].Id" value="@Model.Id" class="form-control">
+    <div class="form-group col-3">
+        <label asp-for="Name"></label>
+        <input type="text" id="order-item-name-@unique" name="OrderItems[@index].Name" value="@Model.Name" class="form-control">
+    </div>
+    <div class="form-group col-3">
+        <label asp-for="Quantity"></label>
+        <input type="number" id="order-item-quantity-@unique" name="OrderItems[@index].Quantity" value="@Model.Quantity" class="form-control">
+    </div>
+    <div class="form-group col-3">
+        <label asp-for="Unit"></label>
+        <input type="text" id="order-item-unit-@unique" name="OrderItems[@index].Unit" value="@Model.Unit" class="form-control">
+    </div>
+    <div class="form-group col-md-3">
+        <label></label>
+        <div>
+            <button type="button" id="delete-order-item" class="btn btn-danger">Delete</button>
+        </div>
+    </div>
+</div>
